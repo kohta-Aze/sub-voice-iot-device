@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sub voice - 胸元から結ばれる、助け合いの輪</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=MPLUSRounded1c:wght@400;500;700&family=Google+Sans:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+        :root {
+            /* Brand Colors - Google Material */
+            --google-blue: #4285F4;
+            --google-red: #DB4437;
+            --google-yellow: #F4B400;
+            --google-green: #0F9D58;
+
+            --brand-gradient: linear-gradient(135deg, #4285F4, #DB4437, #F4B400, #0F9D58);
+
+            --md-sys-color-primary: #4285F4;
+            --md-sys-color-surface: #FAFAFA;
+            --md-sys-color-surface-container: #FFFFFF;
+            --md-sys-color-on-surface: #202124;
+            --md-sys-color-outline: #dadce0;
+
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 8px;
+        }
+
+        body {
+            font-family: 'Google Sans', 'M PLUS Rounded 1c', sans-serif;
+            background-color: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* RAINBOW HEADER */
+        header {
+            width: 100%;
+            background: linear-gradient(120deg,
+                    var(--google-blue) 0%,
+                    var(--google-red) 33%,
+                    var(--google-yellow) 66%,
+                    var(--google-green) 100%);
+            color: white;
+            padding: 40px 20px 80px;
+            /* More bottom padding for content overlap */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+
+        /* Subtle texture pattern over gradient */
+        header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                radial-gradient(circle at 10% 10%, rgba(255, 255, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 90%, rgba(255, 255, 255, 0.1) 0%, transparent 20%);
+            pointer-events: none;
+        }
+
+        .brand-logo {
+            max-width: 220px;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+
+        .brand-concept {
+            font-size: 1.1rem;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 24px;
+            border-radius: 50px;
+            backdrop-filter: blur(4px);
+            letter-spacing: 0.5px;
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            width: 100%;
+            max-width: 720px;
+            padding: 0 20px;
+            margin-top: -50px;
+            /* Overlap header */
+            box-sizing: border-box;
+            z-index: 10;
+            animation: fadeInUp 0.8s cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        .card {
+            background-color: var(--md-sys-color-surface-container);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Rainbow top border for cards */
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4285F4, #DB4437, #F4B400, #0F9D58);
+            opacity: 0.9;
+        }
+
+        .card:hover {
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+            transform: translateY(-2px);
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            margin: 0 0 24px 0;
+            color: #202124;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 400;
+            /* Google Sans Light/Reg feel */
+        }
+
+        .section-icon {
+            /* Google Blue */
+            color: var(--google-blue);
+            font-size: 28px;
+        }
+
+        /* SLOT SELECTION */
+        .slot-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .slot-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 8px;
+            border: 1px solid var(--md-sys-color-outline);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+            text-align: center;
+        }
+
+        .slot-card:hover {
+            background-color: #f8f9fa;
+            border-color: #bdc1c6;
+        }
+
+        .slot-card.active {
+            background-color: #e8f0fe;
+            /* Google Blue Tint */
+            border-color: var(--google-blue);
+            color: var(--google-blue);
+        }
+
+        /* Rainbow active border/shadow hint */
+        .slot-card.active {
+            box-shadow: 0 0 0 1px var(--google-blue);
+        }
+
+        .slot-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+            color: #5f6368;
+        }
+
+        .slot-card.active .slot-icon {
+            color: var(--google-blue);
+        }
+
+        .slot-label {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .slot-sub {
+            font-size: 0.75rem;
+            color: #70757a;
+            margin-top: 4px;
+        }
+
+        /* UPLOAD */
+        .file-drop-zone {
+            display: block;
+            box-sizing: border-box;
+            border: 2px dashed #dadce0;
+            border-radius: var(--radius-md);
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #fafafa;
+            margin-bottom: 20px;
+        }
+
+        .file-drop-zone:hover {
+            border-color: var(--google-blue);
+            background: #f1f3f4;
+        }
+
+        .file-drop-zone span {
+            display: block;
+            margin-top: 12px;
+            color: #5f6368;
+            font-weight: 500;
+        }
+
+        /* INPUTS & BUTTONS */
+        .input-field {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            transition: all 0.2s;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border: 2px solid var(--google-blue);
+            padding: 13px 15px;
+            /* adjust for border */
+        }
+
+        .btn-primary {
+            background-color: var(--google-blue);
+            color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 12px 32px;
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: #1b66c9;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary:active {
+            transform: translateY(1px);
+            box-shadow: none;
+        }
+
+        .btn-primary:disabled {
+            background-color: #dadce0;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* CHIPS - Multi Color Hover */
+        .chip-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .chip {
+            height: 36px;
+            padding: 0 16px;
+            border: 1px solid #dadce0;
+            border-radius: 18px;
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #3c4043;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        /* Randomize hover colors via nth-child for rainbow feel */
+        .chip:nth-child(4n+1):hover {
+            border-color: var(--google-blue);
+            background: #e8f0fe;
+            color: #1967d2;
+        }
+
+        .chip:nth-child(4n+2):hover {
+            border-color: var(--google-red);
+            background: #fce8e6;
+            color: #c5221f;
+        }
+
+        .chip:nth-child(4n+3):hover {
+            border-color: var(--google-yellow);
+            background: #fef7e0;
+            color: #ea8600;
+        }
+
+        .chip:nth-child(4n+4):hover {
+            border-color: var(--google-green);
+            background: #e6f4ea;
+            color: #137333;
+        }
+
+        .chip:active {
+            background: #ddd;
+        }
+
+        .status-area {
+            margin-top: 16px;
+            min-height: 24px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .success-text {
+            color: #137333;
+        }
+
+        .error-text {
+            color: #c5221f;
+        }
+
+        .loading-text {
+            color: #1a73e8;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .slot-container {
+                gap: 8px;
+            }
+
+            .slot-card {
+                padding: 12px 4px;
+            }
+
+            .brand-concept {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <!-- Logo Image -->
+        <img src="logo.png" alt="sub voice" class="brand-logo">
+        <h1 class="brand-title">sub voice</h1>
+        <div class="brand-concept">胸元から結ばれる、助け合いの輪</div>
+    </header>
+
+    <div class="container">
+
+        <!-- CARD 1: Audio Upload -->
+        <div class="card">
+            <h2><span class="material-icons-round section-icon">library_music</span> 音声スロット設定</h2>
+
+            <div class="slot-container" id="slotContainer">
+                <div class="slot-card active" onclick="selectSlot(1)">
+                    <span class="material-icons-round slot-icon">bookmark</span>
+                    <span class="slot-label">Slot 1</span>
+                    <span class="slot-sub">Standard</span>
+                </div>
+                <div class="slot-card" onclick="selectSlot(2)">
+                    <span class="material-icons-round slot-icon">bookmark_border</span>
+                    <span class="slot-label">Slot 2</span>
+                    <span class="slot-sub">Variation</span>
+                </div>
+                <div class="slot-card" onclick="selectSlot(3)">
+                    <span class="material-icons-round slot-icon">bookmark_border</span>
+                    <span class="slot-label">Slot 3</span>
+                    <span class="slot-sub">Backup</span>
+                </div>
+            </div>
+            <input type="hidden" id="selectedSlot" value="1">
+
+            <label for="file" class="file-drop-zone">
+                <span class="material-icons-round"
+                    style="font-size: 32px; color:var(--google-blue);">cloud_upload</span>
+                <span id="fileName">MP3ファイルをここにドロップ または クリック</span>
+            </label>
+            <input type="file" id="file" accept="audio/*" style="display:none;" onchange="updateFileName()">
+
+            <input type="password" id="token" class="input-field" placeholder="管理者トークン (X-Admin-Token)">
+
+            <button id="uploadBtn" class="btn-primary" onclick="uploadAudio()">アップロード</button>
+
+            <div id="uploadStatus" class="status-area"></div>
+        </div>
+
+        <!-- CARD 2: NIF AI Text -->
+        <div class="card">
+            <h2><span class="material-icons-round section-icon">graphic_eq</span> AI セリフ送信</h2>
+
+            <div class="chip-group">
+                <div class="chip" onclick="setKeyword('挨拶 明るく')">👋 挨拶 明るく</div>
+                <div class="chip" onclick="setKeyword('助けて 強く')">🆘 助けて 強く</div>
+                <div class="chip" onclick="setKeyword('ありがとう 優しく')">🙏 ありがとう</div>
+                <div class="chip" onclick="setKeyword('道案内 丁寧に')">🗺 道案内</div>
+                <div class="chip" onclick="setKeyword('警報 アラート風')">🚨 警報</div>
+                <div class="chip" onclick="setKeyword('笑って')">😄 笑って</div>
+            </div>
+
+            <input type="text" id="nifText" class="input-field" placeholder="AIへの指示を入力（例：どいて やさしく）">
+
+            <button id="nifSendBtn" class="btn-primary" onclick="sendNifText()">セリフ生成 & 送信</button>
+
+            <div id="nifStatus" class="status-area"></div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- UI Helpers ---
+        function selectSlot(num) {
+            document.getElementById('selectedSlot').value = num;
+            const cards = document.querySelectorAll('.slot-card');
+            const icons = document.querySelectorAll('.slot-icon');
+
+            cards.forEach((card, idx) => {
+                const icon = card.querySelector('.slot-icon');
+                if (idx + 1 === num) {
+                    card.classList.add('active');
+                    icon.textContent = 'bookmark';
+                } else {
+                    card.classList.remove('active');
+                    icon.textContent = 'bookmark_border';
+                }
+            });
+        }
+
+        function updateFileName() {
+            const fileInput = document.getElementById('file');
+            const label = document.getElementById('fileName');
+            if (fileInput.files.length > 0) {
+                label.innerText = fileInput.files[0].name;
+                label.style.color = '#4285F4';
+                label.style.fontWeight = 'bold';
+            } else {
+                label.innerText = 'MP3ファイルをここにドロップ または クリック';
+                label.style.color = '';
+                label.style.fontWeight = '';
+            }
+        }
+
+        function setKeyword(text) {
+            const input = document.getElementById('nifText');
+            input.value = text;
+            input.focus();
+        }
+
+        function setStatus(id, type, msg) {
+            const el = document.getElementById(id);
+            el.innerText = msg;
+            el.className = 'status-area ' + type + '-text';
+        }
+
+        // --- API Logic ---
+        async function uploadAudio() {
+            const slot = document.getElementById('selectedSlot').value;
+            const file = document.getElementById('file').files[0];
+            const token = document.getElementById('token').value;
+            const btn = document.getElementById('uploadBtn');
+
+            if (!file) { setStatus('uploadStatus', 'error', 'ファイルを選択してください'); return; }
+            if (!token) { setStatus('uploadStatus', 'error', 'トークンを入力してください'); return; }
+
+            setStatus('uploadStatus', 'loading', 'アップロード中...');
+            btn.disabled = true;
+
+            // ★ SECURITY: Replace with your actual API Gateway URL after deployment
+            const apiBase = "YOUR_API_GATEWAY_URL"; // e.g. https://xxxx.execute-api.ap-northeast-1.amazonaws.com/upload-audio
+            const url = `${apiBase}?pattern_id=${encodeURIComponent(slot)}`;
+
+            try {
+                const res = await fetch(url, {
+                    method: "POST",
+                    headers: { "Content-Type": file.type || "audio/mpeg", "X-Admin-Token": token },
+                    body: file
+                });
+                const data = await res.json().catch(() => ({}));
+
+                if (res.ok && data.message === "uploaded") {
+                    document.getElementById('uploadStatus').innerHTML =
+                        `<span class="success-text">完了しました</span> <a href="${data.audio_url}" target="_blank" style="color:#4285F4">再生</a>`;
+                } else {
+                    setStatus('uploadStatus', 'error', `エラー: ${res.status}`);
+                }
+            } catch (e) {
+                setStatus('uploadStatus', 'error', `通信エラー: ${e.message}`);
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        // ★ SECURITY: Replace with your actual Lambda Function URL or API Gateway
+        const NIF_API = "YOUR_LAMBDA_URL"; // e.g. https://xxxx.lambda-url.ap-northeast-1.on.aws/
+
+        async function sendNifText() {
+            const input = document.getElementById('nifText');
+            const btn = document.getElementById('nifSendBtn');
+            const text = input.value || "挨拶 明るく";
+
+            setStatus('nifStatus', 'loading', 'AI生成中...');
+            btn.disabled = true;
+
+            const magicPrompt = `次の指示に合うセリフを一つだけ考えてください。セリフ以外の言葉は不要です。指示：${text}`;
+
+            try {
+                console.log("POST to NIF_API:", NIF_API);  // ★デバッグ
+                const res = await fetch(NIF_API, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ text: magicPrompt })
+                });
+
+                console.log("NIF status:", res.status);
+
+                if (res.ok) {
+                    setStatus('nifStatus', 'success', '送信完了！まもなく再生されます');
+                } else {
+                    const err = await res.text();
+                    console.error("NIF error body:", err);
+                    setStatus('nifStatus', 'error', 'エラー: ' + err);
+                }
+            } catch (e) {
+                console.error("NIF fetch error:", e);
+                setStatus('nifStatus', 'error', '通信エラー: ' + e.message);
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+venv/
+env/
+
+# Valid Secrets
+sound.h
+
+# Node codes
+node_modules/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
