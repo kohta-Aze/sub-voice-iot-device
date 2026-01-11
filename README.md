@@ -41,7 +41,9 @@ AWS Lambdaの環境変数として以下を設定してください。
 
 ## 🎥 デモ (Demo)
 
-[**▶️ デモ動画を再生する (MP4)**](./docs/demo.mp4)
+[**▶️ デモ動画を見る (Google Drive)**](https://drive.google.com/file/d/10Vc6KlZS4SRGajUtY2HGl7x_mLTRRWNd/view?usp=drive_link)
+
+> **Note**: 動画ファイルサイズが大きいため、外部ホスティングを使用しています。
 
 ## 🏗 システム構成 (Architecture)
 
